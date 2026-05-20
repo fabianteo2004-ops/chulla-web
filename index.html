@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chulla de Pablo Maldonado | Cocina Ecuatoriana Creativa | Madrid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rojo: #B8252A;
+      --rojo-dark: #8B1A1E;
+      --oro: #C9973A;
+      --dark: #080808;
+      --dark2: #0f0f0f;
+      --dark3: #141414;
+      --warm-white: #FDF6EE;
+      --muted: #8B7355;
+      --card: rgba(255,255,255,0.05);
+      --border: rgba(201,151,58,0.22);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; background: var(--dark); }
+    body { font-family: 'Lato', sans-serif; background: transparent; color: var(--warm-white); line-height: 1.6; }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      transition: background 0.5s, padding 0.5s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 3rem;
+    }
+    .nav-logo { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--oro); text-decoration: none; }
+    /* ══ HAMBURGUESA ══ */
+    .menu-btn {
+      position: fixed; top: 1.6rem; right: 2.5rem; z-index: 500;
+      background: none; border: none; cursor: pointer;
+      padding: 6px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .menu-btn span {
+      display: block; width: 26px; height: 1.5px;
+      background: rgba(255,255,255,0.8);
+      transition: transform 0.32s ease, opacity 0.32s ease, width 0.32s ease;
+    }
+    .menu-btn.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .menu-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+    .menu-btn.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* ══ MENÚ OVERLAY ══ */
+    @keyframes menuGradShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes bronzeFloat {
+      0%   { opacity: 1;   transform: scale(1)    translate(0,0)       rotate(0deg); }
+      25%  { opacity: 0.9; transform: scale(1.22) translate(14px,-20px) rotate(3deg); }
+      50%  { opacity: 0.8; transform: scale(0.88) translate(-12px,16px) rotate(-2deg); }
+      75%  { opacity: 0.95;transform: scale(1.14) translate(8px,-8px)   rotate(2deg); }
+      100% { opacity: 1;   transform: scale(1)    translate(0,0)       rotate(0deg); }
+    }
+    @keyframes bronzeRotate {
+      from { transform: rotate(0deg) scale(1.4); }
+      to   { transform: rotate(360deg) scale(1.4); }
+    }
+    .menu-overlay {
+      position: fixed; inset: 0; z-index: 400;
+      background: linear-gradient(135deg,
+        #050505 0%, #0a1408 25%, #060f06 50%,
+        #050505 75%, #0a1408 100%);
+      background-size: 400% 400%;
+      animation: menuGradShift 10s ease infinite;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      overflow: hidden;
+    }
+    /* capa 1: líneas de relieve bronce más visibles */
+    .menu-overlay::before {
+      content: ''; position: absolute; inset: -25%; pointer-events: none; z-index: 0;
+      background:
+        repeating-linear-gradient(-52deg,
+          transparent 0px, transparent 5px,
+          rgba(201,151,58,0.11) 5px, rgba(201,151,58,0.11) 6px),
+        radial-gradient(ellipse 85% 65% at 12% 75%, rgba(201,151,58,0.35) 0%, transparent 100%),
+        radial-gradient(ellipse 65% 55% at 88% 18%, rgba(180,120,30,0.28) 0%, transparent 100%),
+        radial-gradient(ellipse 45% 40% at 55% 50%, rgba(220,170,60,0.14) 0%, transparent 100%);
+      animation: bronzeFloat 7s ease-in-out infinite;
+    }
+    /* capa 2: foco giratorio dorado */
+    .menu-overlay::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background: conic-gradient(from 0deg at 50% 50%,
+        transparent 0deg, rgba(201,151,58,0.07) 25deg,
+        transparent 55deg, transparent 200deg,
+        rgba(201,151,58,0.05) 220deg, transparent 250deg);
+      animation: bronzeRotate 22s linear infinite;
+    }
+    .menu-overlay.open { opacity: 1; pointer-events: all; }
+    .menu-nav { list-style: none; position: relative; z-index: 1; }
+    .menu-nav li { margin: 1.6rem 0; }
+    .menu-nav a {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 700;
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      display: inline-block;
+      transition: color 0.25s ease, transform 0.3s ease;
+    }
+    .menu-nav a:hover { color: #1e4d2b; transform: scale(1.08) translateX(14px); }
+
+    /* ══ PAGE OVERLAYS ══ */
+    @keyframes overlayBreath {
+      0%,100% { box-shadow: inset 0 0 200px rgba(201,151,58,0.07), inset 0 0 60px rgba(201,151,58,0.05); }
+      50%      { box-shadow: inset 0 0 380px rgba(201,151,58,0.18), inset 0 0 120px rgba(201,151,58,0.12); }
+    }
+    @keyframes overlayBronzeMove {
+      0%,100% { background-position: 0% 0%, 100% 0%, 0% 100%, 0% 0%; }
+      33%      { background-position: 30% 20%, 70% 30%, 20% 70%, 0% 0%; }
+      66%      { background-position: 60% 40%, 40% 60%, 50% 40%, 0% 0%; }
+    }
+    @keyframes topLineSlide {
+      from { transform: scaleX(0); opacity: 0; }
+      to   { transform: scaleX(1); opacity: 1; }
+    }
+    @keyframes topLineShimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .page-overlay {
+      position: fixed; inset: 0; z-index: 401;
+      background-color: #060606;
+      background-image:
+        repeating-linear-gradient(-52deg,
+          transparent 0, transparent 5px,
+          rgba(201,151,58,0.08) 5px, rgba(201,151,58,0.08) 6px),
+        radial-gradient(ellipse 70% 55% at 90% 8%,  rgba(201,151,58,0.22) 0%, transparent 100%),
+        radial-gradient(ellipse 60% 48% at 8% 92%,  rgba(180,120,30,0.18) 0%, transparent 100%),
+        radial-gradient(ellipse 40% 32% at 50% 50%, rgba(201,151,58,0.08) 0%, transparent 100%);
+      overflow: hidden;
+      opacity: 0; pointer-events: none;
+      transform: translateY(14px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .page-overlay.active {
+      opacity: 1; pointer-events: all; transform: translateY(0);
+      animation: overlayBreath 4.5s ease-in-out infinite;
+    }
+    /* línea dorada animada en la parte superior de cada overlay */
+    .page-topline {
+      position: sticky; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%, rgba(201,151,58,0.9) 25%,
+        rgba(253,220,120,1) 50%, rgba(201,151,58,0.9) 75%, transparent 100%);
+      background-size: 200% 100%;
+      transform-origin: left; transform: scaleX(0); opacity: 0;
+      z-index: 20; pointer-events: none;
+    }
+    .page-overlay.active .page-topline {
+      animation: topLineSlide 0.7s 0.35s cubic-bezier(0.22,1,0.36,1) forwards,
+                 topLineShimmer 2.5s 1.1s ease-in-out infinite;
+    }
+    .overlay-scroll {
+      position: absolute; inset: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+    .page-back {
+      position: absolute; top: 5rem; right: 2.5rem;
+      background: none; border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.45); font-size: 0.85rem;
+      width: 38px; height: 38px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s; z-index: 10;
+    }
+    .page-back:hover { color: white; border-color: white; }
+
+    /* ══ HERO ══ */
+    .hero {
+      position: relative; height: 100vh; min-height: 720px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    #bgCanvas {
+      position: fixed; inset: 0; z-index: -1;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg,
+        rgba(8,8,8,0.05) 0%,
+        rgba(8,8,8,0.02) 35%,
+        rgba(8,8,8,0.28) 72%,
+        rgba(8,8,8,0.82) 100%);
+    }
+    .hero-flag {
+      position: absolute; top: 0; left: 0; right: 0; height: 5px; z-index: 2;
+      background: linear-gradient(to right, #FFD100 33.3%, #034EA2 33.3% 66.6%, #EF3340 66.6%);
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; max-width: 860px; padding: 0 2rem; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: rgba(201,151,58,0.1); border: 1px solid rgba(201,151,58,0.38);
+      padding: 0.38rem 1rem; border-radius: 30px;
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
+    }
+    .hero-badge .dot { width: 5px; height: 5px; background: var(--oro); border-radius: 50%; flex-shrink: 0; }
+
+    .hero-pre {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.76rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--warm-white); margin-bottom: 1rem;
+      opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 8.5vw, 7rem); font-weight: 900; line-height: 1.0;
+      color: var(--warm-white); margin-bottom: 0.5rem;
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-title em { color: var(--oro); font-style: italic; display: block; }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem); font-style: italic;
+      color: var(--warm-white); margin-bottom: 2.8rem;
+      opacity: 0; animation: fadeUp 0.9s 0.85s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.9s 1.05s forwards;
+    }
+    .btn-primary {
+      display: inline-block; background: var(--rojo); color: white; text-decoration: none;
+      padding: 1rem 2.5rem; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-weight: 700; border-radius: 2px;
+      transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+    }
+    .btn-primary:hover { background: var(--rojo-dark); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(184,37,42,0.45); }
+    .btn-outline {
+      display: inline-block; border: 1.5px solid rgba(201,151,58,0.65); color: var(--oro);
+      text-decoration: none; padding: 1rem 2.5rem; font-size: 0.78rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 700; border-radius: 2px;
+      transition: background 0.3s, color 0.3s, transform 0.25s;
+    }
+    .btn-outline:hover { background: var(--oro); color: var(--dark); transform: translateY(-3px); }
+
+    .hero-scroll-cue {
+      position: absolute; bottom: 2.8rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(253,246,238,0.35); font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase;
+      animation: scrollPulse 2.5s infinite; z-index: 2;
+    }
+    .hero-scroll-cue::after { content: ''; width: 1px; height: 48px; background: linear-gradient(to bottom, var(--oro), transparent); }
+
+    /* ══ STATS ══ */
+    .stats-strip { background: transparent; }
+    .stats-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stat-item { padding: 2.5rem 2rem; text-align: center; border-right: 1px solid var(--border); }
+    .stat-item:last-child { border-right: none; }
+    .stat-icon { font-size: 1.7rem; margin-bottom: 0.5rem; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: var(--oro); line-height: 1.1; margin-bottom: 0.3rem; }
+    .stat-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(253,246,238,0.4); }
+
+    /* ══ LAYOUT ══ */
+    section { padding: 7rem 2rem; }
+    .container { max-width: 1120px; margin: 0 auto; }
+    .label { font-size: 0.7rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--oro); margin-bottom: 0.85rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.12; margin-bottom: 1.2rem; }
+    .section-title em { color: var(--oro); font-style: italic; }
+    .divider { width: 52px; height: 3px; background: var(--rojo); margin-bottom: 2.2rem; }
+
+    /* ══ NOSOTROS ══ */
+    .nosotros { background: transparent; }
+    .nosotros-inner { max-width: 780px; margin: 0 auto; text-align: center; }
+    .nosotros-inner .divider { margin: 0 auto 2.2rem; }
+    .nosotros-inner p { color: rgba(253,246,238,0.65); margin-bottom: 1.4rem; font-size: 1.05rem; line-height: 1.9; }
+    .nosotros-quote {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 2rem 0; margin: 2.5rem 0;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.25rem; color: rgba(253,246,238,0.82); line-height: 1.7;
+    }
+    .nosotros-quote em { color: var(--oro); }
+    .chefs-row { display: flex; gap: 2rem; justify-content: center; margin-top: 2.5rem; }
+    .chef-card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 3px; padding: 1.3rem 2rem; text-align: center; }
+    .chef-role { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro); margin-bottom: 0.35rem; }
+    .chef-name { font-family: 'Playfair Display', serif; font-size: 1.08rem; color: var(--warm-white); }
+
+    /* ══ PARALLAX QUOTE ══ */
+    .parallax-quote {
+      position: relative; height: 72vh; min-height: 520px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .pq-overlay { position: absolute; inset: 0; background: rgba(8,8,8,0.42); }
+    .pq-content { position: relative; z-index: 2; text-align: center; max-width: 780px; padding: 0 2rem; }
+    .big-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4.2vw, 3.1rem); font-style: italic; font-weight: 700;
+      color: var(--warm-white); line-height: 1.38; margin-bottom: 1.8rem;
+    }
+    .big-quote em { color: var(--oro); }
+    .quote-attr { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+
+    /* ══ CARTA ══ */
+    .carta { background: transparent; }
+    .carta-header { text-align: center; margin-bottom: 4.5rem; }
+    .carta-header .divider { margin: 0 auto; }
+
+    .carta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    /* quinta tarjeta ocupa todo el ancho */
+    .plato-card.full-width {
+      grid-column: 1 / -1;
+    }
+    .plato-card.full-width .plato-img-wrap img { min-height: 340px; }
+
+    .plato-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 3px;
+      overflow: hidden; cursor: pointer;
+      transition: transform 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .plato-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(201,151,58,0.6);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.55);
+    }
+
+    .plato-img-wrap { overflow: hidden; position: relative; }
+    .plato-img-wrap img {
+      width: 100%; height: 100%; min-height: 280px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .plato-card:hover .plato-img-wrap img { transform: scale(1.07); }
+    .plato-tag {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--rojo); color: white;
+      font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.22rem 0.65rem; border-radius: 2px;
+    }
+
+    .plato-info {
+      padding: 2rem 2rem 2rem 2.2rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .plato-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; color: var(--warm-white);
+      margin-bottom: 0.8rem; line-height: 1.3;
+    }
+    .plato-info p { font-size: 0.88rem; color: rgba(253,246,238,0.52); line-height: 1.75; margin-bottom: 1.2rem; }
+    .plato-info .plato-divider { width: 32px; height: 2px; background: var(--rojo); margin-bottom: 1.2rem; }
+
+    /* ══ GALERÍA ══ */
+    .galeria { background: transparent; padding-bottom: 0; }
+    .galeria-header { text-align: center; margin-bottom: 3.5rem; }
+    .galeria-header .divider { margin: 0 auto 0; }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 300px);
+      gap: 4px;
+    }
+    /* primera celda ocupa 2 columnas */
+    .galeria-grid .g-cell:first-child { grid-column: span 2; }
+    .g-cell {
+      overflow: hidden; position: relative; cursor: pointer;
+    }
+    .g-cell img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.72) saturate(1.1);
+      transition: transform 0.6s ease, filter 0.5s ease;
+      display: block;
+    }
+    .g-cell:hover img { transform: scale(1.06); filter: brightness(1) saturate(1.3); }
+    .g-cell-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.88), transparent);
+      padding: 1.5rem 1.4rem 1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-style: italic;
+      color: rgba(253,246,238,0.9);
+      transform: translateY(8px); opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .g-cell:hover .g-cell-label { transform: translateY(0); opacity: 1; }
+
+    /* ══ PARALLAX POSTRE ══ */
+    .parallax-postre {
+      position: relative; height: 55vh; min-height: 420px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .pp-overlay { position: absolute; inset: 0; background: rgba(8,8,8,0.35); }
+    .pp-content { position: relative; z-index: 2; text-align: center; max-width: 700px; padding: 0 2rem; }
+    .pp-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; font-style: italic;
+      color: var(--warm-white); margin-bottom: 0.8rem; line-height: 1.3;
+    }
+    .pp-content h3 em { color: var(--oro); }
+    .pp-content p { font-size: 1rem; color: rgba(253,246,238,0.62); }
+
+    /* ══ RESERVAS ══ */
+    .reservas { background: transparent; }
+    .reservas-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3.5rem; align-items: start; }
+    .mapa-inline { width: 100%; aspect-ratio: 1/1; border: 1px solid var(--border); border-radius: 4px; display: block; }
+    .horario-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+    .horario-table tr { border-bottom: 1px solid rgba(201,151,58,0.1); }
+    .horario-table tr:last-child { border-bottom: none; }
+    .horario-table td { padding: 1rem 0; font-size: 0.94rem; }
+    .horario-table td:first-child { font-weight: 700; color: var(--warm-white); width: 36%; text-transform: capitalize; }
+    .horario-table td:last-child { color: rgba(253,246,238,0.52); font-size: 0.88rem; }
+    .horario-table .cerrado { color: var(--rojo) !important; font-style: italic; }
+
+    .contact-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 4px; padding: 3rem; }
+    .contact-item { display: flex; gap: 1.4rem; align-items: flex-start; margin-bottom: 2.4rem; }
+    .contact-item:last-child { margin-bottom: 0; }
+    .contact-icon { width: 48px; height: 48px; min-width: 48px; background: var(--rojo); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .contact-label { font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--oro); margin-bottom: 0.38rem; }
+    .contact-value { font-size: 1rem; color: var(--warm-white); text-decoration: none; line-height: 1.6; }
+    a.contact-value:hover { color: var(--oro); }
+    .instagram-btn {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white; text-decoration: none; padding: 0.8rem 1.6rem; border-radius: 3px;
+      font-weight: 700; font-size: 0.88rem;
+      transition: opacity 0.3s, transform 0.25s; margin-top: 0.2rem;
+    }
+    .instagram-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* ══ MAPA ══ */
+    .mapa { height: 460px; padding: 0; }
+    .mapa iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* ══ FOOTER ══ */
+    footer { background: transparent; padding: 4rem 2rem 3rem; text-align: center; }
+    .footer-logo { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: var(--oro); margin-bottom: 0.4rem; }
+    .footer-tagline { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.2rem; }
+    .footer-links { display: flex; gap: 2.5rem; justify-content: center; list-style: none; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--oro); }
+    .footer-sep { width: 40px; height: 1px; background: var(--border); margin: 0 auto 1.8rem; }
+    .footer-copy { font-size: 0.7rem; color: rgba(253,246,238,0.18); }
+
+    /* ══ SCROLL REVEAL ══ */
+    .reveal { opacity: 0; transform: translateY(48px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-48px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(48px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ══ KEYFRAMES ══ */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.35; }
+      50%       { transform: translateX(-50%) translateY(10px); opacity: 0.7; }
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .reservas-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .mapa-inline { aspect-ratio: 16/9; }
+      .carta-grid { grid-template-columns: 1fr; }
+      .plato-card { grid-template-columns: 1fr; }
+      .plato-img-wrap img { min-height: 240px; }
+      .stats-inner { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
+      .galeria-grid { grid-template-rows: repeat(2, 220px); }
+      .pi-content { padding: 0 2rem; }
+    }
+    @media (max-width: 620px) {
+      section { padding: 4.5rem 1.3rem; }
+      .galeria-grid { grid-template-columns: 1fr; grid-template-rows: repeat(5, 220px); }
+      .galeria-grid .g-cell:first-child { grid-column: 1; }
+      .contact-card { padding: 2rem 1.5rem; }
+      .chefs-row { flex-direction: column; gap: 1rem; align-items: center; }
+    }
+
+    /* ══ CARTA OVERLAY — tabs + alternating ══ */
+    .carta-overlay-inner {
+      padding: 4rem 3rem 3rem;
+      max-width: 1000px; margin: 0 auto;
+    }
+    .carta-overlay-header { text-align: center; margin-bottom: 2rem; }
+    .carta-overlay-header .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 0.6rem; }
+
+    .carta-tabs {
+      display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap;
+      margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 0;
+    }
+    .carta-tab-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1rem; color: rgba(253,246,238,0.42);
+      padding: 0.65rem 1.4rem; position: relative;
+      transition: color 0.25s;
+    }
+    .carta-tab-btn::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+      height: 2px; background: var(--oro);
+      transition: left 0.25s, right 0.25s;
+    }
+    .carta-tab-btn.active { color: var(--warm-white); }
+    .carta-tab-btn.active::after { left: 0.6rem; right: 0.6rem; }
+    .carta-tab-btn:hover:not(.active) { color: rgba(253,246,238,0.7); }
+
+    .carta-panel { display: none; }
+    .carta-panel.active { display: block; }
+
+    .carta-alt-item {
+      display: flex; gap: 3.5rem; align-items: center;
+      margin-bottom: 4rem; padding-bottom: 4rem;
+      border-bottom: 1px solid rgba(201,151,58,0.1);
+    }
+    .carta-alt-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .carta-alt-item.reverse .carta-alt-img { order: 2; }
+    .carta-alt-item.reverse .carta-alt-text { order: 1; }
+
+    .carta-alt-img {
+      flex: 0 0 46%; max-width: 46%;
+    }
+    .carta-alt-img img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      border-radius: 3px; border: 1px solid var(--border); display: block;
+    }
+    .carta-alt-text {
+      flex: 1; min-width: 0;
+    }
+    .carta-alt-tag {
+      font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+      background: var(--rojo); color: white;
+      padding: 0.2rem 0.55rem; border-radius: 2px;
+      display: inline-block; margin-bottom: 0.7rem;
+    }
+    .carta-alt-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.25rem, 2.2vw, 1.65rem); font-weight: 700;
+      color: var(--warm-white); line-height: 1.22; margin-bottom: 0.9rem;
+    }
+    .carta-alt-text p {
+      font-size: 0.95rem; color: rgba(253,246,238,0.6); line-height: 1.85;
+    }
+    .carta-note {
+      text-align: center; margin-top: 2.5rem; padding-top: 1.4rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(253,246,238,0.25);
+    }
+    @media (max-width: 700px) {
+      .carta-overlay-inner { padding: 3rem 1.2rem 2rem; }
+      .carta-alt-item { flex-direction: column; gap: 1.5rem; margin-bottom: 3rem; padding-bottom: 3rem; }
+      .carta-alt-item.reverse .carta-alt-img { order: 0; }
+      .carta-alt-item.reverse .carta-alt-text { order: 0; }
+      .carta-alt-img { flex: none; max-width: 100%; width: 100%; }
+    }
+
+    /* ══ CITA FUNDADOR ══ */
+    .cita-fundador { background: transparent; padding: 6rem 2rem; }
+    .cita-inner { max-width: 860px; margin: 0 auto; text-align: center; position: relative; }
+    .cita-marks {
+      font-family: 'Playfair Display', serif; font-size: 9rem; line-height: 0.6;
+      color: rgba(201,151,58,0.12); position: absolute; top: 0.5rem; left: -0.5rem;
+      pointer-events: none; user-select: none;
+    }
+    .cita-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.55rem, 3.2vw, 2.5rem); font-style: italic; font-weight: 400;
+      color: var(--warm-white); line-height: 1.58; margin-bottom: 2rem;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 2.8rem 2.5rem; quotes: none;
+    }
+    .cita-text em { color: var(--oro); }
+    .cita-attr { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
+
+    /* ══ REPSOL ══ */
+    .repsol-section { background: transparent; padding: 7rem 2rem; }
+    .repsol-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .repsol-foto { position: relative; }
+    .repsol-foto img { width: 100%; border-radius: 3px; border: 1px solid var(--border); display: block; }
+    .repsol-placeholder {
+      display: none;
+      width: 100%; aspect-ratio: 3/4;
+      border: 1px dashed rgba(201,151,58,0.28); border-radius: 3px;
+      flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;
+      color: rgba(253,246,238,0.28); font-size: 0.9rem;
+      background: rgba(255,255,255,0.02); text-align: center; padding: 2rem;
+    }
+    .repsol-placeholder .ph-icon { font-size: 2.5rem; margin-bottom: 0.4rem; }
+    .repsol-desc { color: rgba(253,246,238,0.62); font-size: 0.95rem; line-height: 1.88; margin-bottom: 1.4rem; }
+    .repsol-meritos { list-style: none; margin: 1.8rem 0 2.5rem; }
+    .repsol-meritos li {
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      padding: 0.7rem 0; border-bottom: 1px solid rgba(201,151,58,0.08);
+      font-size: 0.91rem; color: rgba(253,246,238,0.7);
+    }
+    .repsol-meritos li:last-child { border-bottom: none; }
+    .merit-dot { width: 6px; height: 6px; min-width: 6px; background: var(--rojo); border-radius: 50%; margin-top: 0.48em; }
+    .repsol-badge-wrap { display: flex; align-items: center; gap: 1.5rem; margin-top: 1rem; }
+    .repsol-badge {
+      width: 100px; height: 100px; min-width: 100px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(circle at 40% 35%, #222 0%, #0d0d0d 100%);
+      border: 2px solid var(--oro);
+      box-shadow: 0 0 28px rgba(201,151,58,0.18), inset 0 0 12px rgba(201,151,58,0.06);
+    }
+    .repsol-badge-inner { text-align: center; line-height: 1.2; }
+    .repsol-badge-text { font-size: 0.48rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(201,151,58,0.7); }
+    .repsol-badge-brand { font-family: 'Playfair Display', serif; font-size: 0.68rem; font-weight: 700; color: var(--warm-white); }
+    .repsol-badge-year { font-size: 1.05rem; font-weight: 900; color: var(--oro); font-family: 'Playfair Display', serif; }
+    .repsol-badge-note { font-size: 0.82rem; color: rgba(253,246,238,0.38); line-height: 1.6; }
+    @media (max-width: 960px) {
+      .repsol-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .cita-text { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Chulla</a>
+</nav>
+
+<!-- ══ HAMBURGUESA ══ -->
+<button class="menu-btn" id="menuBtn" aria-label="Menú">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ══ MENÚ OVERLAY ══ -->
+<div class="menu-overlay" id="menuOverlay">
+  <ul class="menu-nav">
+    <li><a href="#" onclick="openPage('page-reserva');return false;">Reserva</a></li>
+    <li><a href="#" onclick="openPage('page-historia');return false;">Historia</a></li>
+    <li><a href="#" onclick="openPage('page-carta');return false;">Carta</a></li>
+    <li><a href="#reservas" onclick="closeMenu()">Contacto</a></li>
+  </ul>
+</div>
+
+<!-- ══ PAGE OVERLAY: RESERVA ══ -->
+<div class="page-overlay" id="page-reserva">
+  <div class="page-topline"></div>
+  <button class="page-back" onclick="closePage()">✕</button>
+  <div class="overlay-scroll">
+  <div style="padding: 6rem 2rem 5rem; max-width: 700px; margin: 0 auto; text-align: center;">
+    <p class="label">Reserva tu mesa</p>
+    <h2 class="section-title" style="margin-bottom:2rem;">Reservar en <em>Chulla</em></h2>
+    <div class="divider" style="margin: 0 auto 2.5rem;"></div>
+    <p style="color:rgba(255,255,255,0.6); font-size:1.05rem; line-height:1.9; margin-bottom:2.5rem;">Llámanos directamente para reservar tu mesa. Atendemos reservas durante el horario de apertura del restaurante.</p>
+    <a href="tel:911746295" style="display:inline-block; background:var(--rojo); color:white; text-decoration:none; padding:1.1rem 3rem; font-size:0.85rem; letter-spacing:0.2em; text-transform:uppercase; font-weight:700; border-radius:2px; margin-bottom:2rem;">📞 911 746 295</a>
+    <table class="horario-table" style="margin-top:3rem;">
+      <tr><td>Lunes</td><td class="cerrado">Cerrado</td></tr>
+      <tr><td>Martes</td><td class="cerrado">Cerrado</td></tr>
+      <tr><td>Miércoles</td><td>13:30–16:30 · 20:30–23:00</td></tr>
+      <tr><td>Jueves</td><td>13:30–16:30 · 20:00–23:00</td></tr>
+      <tr><td>Viernes</td><td>13:30–16:30 · 20:30–23:30</td></tr>
+      <tr><td>Sábado</td><td>13:30–16:30 · 20:30–23:30</td></tr>
+      <tr><td>Domingo</td><td>13:30–16:30</td></tr>
+    </table>
+  </div>
+  </div><!-- /overlay-scroll -->
+</div>
+
+<!-- ══ PAGE OVERLAY: HISTORIA ══ -->
+<div class="page-overlay" id="page-historia">
+  <div class="page-topline"></div>
+  <button class="page-back" onclick="closePage()">✕</button>
+  <div class="overlay-scroll">
+  <section class="nosotros" style="padding-top:5rem; padding-bottom:4rem;">
+    <div class="container">
+      <div class="nosotros-inner">
+        <p class="label">Nuestra historia</p>
+        <h2 class="section-title">Auténtica cocina <em>ecuatoriana</em></h2>
+        <div class="divider" style="margin:0 auto 2.2rem;"></div>
+        <p>Chulla abrió sus puertas el 17 de octubre de 2020 en San Blas-Canillejas con una misión clara: traer los sabores genuinos de Ecuador a Madrid con técnica, creatividad y alma.</p>
+        <blockquote class="nosotros-quote">"Los cacahuetes son uno de los productos que más nos identifica. Los manejamos en salsa, en <em>tierra</em>, en aceite…"</blockquote>
+        <p>Las paredes del restaurante están presididas por pinturas del maestro Oswaldo Guayasamín y reproducciones en piedra de la cultura Valdivia. Reconocidos por la Guía Repsol 2026 y elegidos <strong style="color:var(--oro)">Mejor Restaurante Ecuatoriano del Mundo</strong>.</p>
+        <div class="chefs-row" style="margin-top:2.5rem;">
+          <div class="chef-card"><p class="chef-role">Chef & Fundador</p><p class="chef-name">Pablo Maldonado</p></div>
+          <div class="chef-card"><p class="chef-role">Directora de Sala</p><p class="chef-name">Mayra Gramal</p></div>
+        </div>
+        <blockquote class="nosotros-quote" style="margin-top:3rem;">"En Ecuador hay una bebida tradicional de montaña llamada <em>Canelazo</em>. En Chulla la hacemos casera, como homenaje a nuestra tierra."<br><small style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--oro);display:block;margin-top:1rem;">— Pablo Maldonado · Chef & Fundador</small></blockquote>
+      </div>
+    </div>
+  </section>
+  </div><!-- /overlay-scroll -->
+</div>
+
+<!-- ══ PAGE OVERLAY: CARTA ══ -->
+<div class="page-overlay" id="page-carta">
+  <div class="page-topline"></div>
+  <button class="page-back" onclick="closePage()">✕</button>
+  <div class="overlay-scroll">
+  <div class="carta-overlay-inner">
+
+    <div class="carta-overlay-header">
+      <p class="label">La carta</p>
+      <h2 class="section-title">Nuestra <em>propuesta</em></h2>
+      <div class="divider" style="margin:0 auto;"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="carta-tabs">
+      <button class="carta-tab-btn active" onclick="cartaTab(this,'tab-entrantes')">Entrantes</button>
+      <button class="carta-tab-btn" onclick="cartaTab(this,'tab-principales')">Principales</button>
+      <button class="carta-tab-btn" onclick="cartaTab(this,'tab-postres')">Postres</button>
+      <button class="carta-tab-btn" onclick="cartaTab(this,'tab-bebidas')">Bebidas</button>
+    </div>
+
+    <!-- ENTRANTES -->
+    <div class="carta-panel active" id="tab-entrantes">
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/ostra.jpg" alt="Ostra con Espuma"></div>
+        <div class="carta-alt-text">
+          <span class="carta-alt-tag">Estrella</span>
+          <h3>Ostra con Espuma</h3>
+          <p>Ostra fresca coronada con delicada espuma. Sabor a mar puro con el toque sutil de Chulla. Un bocado que resume la esencia del restaurante en un solo plato.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item reverse">
+        <div class="carta-alt-img"><img src="assets/tartar de atun rojo.jpg" alt="Tartar de Atún Rojo"></div>
+        <div class="carta-alt-text">
+          <span class="carta-alt-tag">Instagram</span>
+          <h3>Tartar de Atún Rojo</h3>
+          <p>Atún rojo de primera calidad con el aliño inconfundible de Chulla. Preparado al momento para conservar toda la frescura y textura del pescado.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/corviche.jpg" alt="Ceviche Ecuatoriano"></div>
+        <div class="carta-alt-text">
+          <h3>Ceviche Ecuatoriano</h3>
+          <p>Mariscos frescos con cítrico andino y leche de tigre. Receta ancestral de la costa ecuatoriana adaptada con productos del mercado madrileño.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINCIPALES -->
+    <div class="carta-panel" id="tab-principales">
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/plato verde.jpg" alt="Creación Vegetal"></div>
+        <div class="carta-alt-text">
+          <span class="carta-alt-tag">Signature</span>
+          <h3>Creación Vegetal</h3>
+          <p>Vegetales de temporada, texturas y emulsiones que definen la cocina de Chulla. Un homenaje a la tierra ecuatoriana expresado con técnica contemporánea.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item reverse">
+        <div class="carta-alt-img"><img src="assets/chulla_repsol_13.jpg" alt="Corviche Andino"></div>
+        <div class="carta-alt-text">
+          <h3>Corviche Andino</h3>
+          <p>El clásico ecuatoriano reinterpretado con masa crujiente de verde y relleno de mariscos con hierbas frescas. Crujiente por fuera, suave y sabroso por dentro.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/atun vinos.jpg" alt="Seco de Pollo Andino"></div>
+        <div class="carta-alt-text">
+          <h3>Seco de Pollo Andino</h3>
+          <p>Pollo confitado con chicha de jora y hierbas del mercado de Otavalo. Maridado con una selección de vinos cuidadosamente elegidos por el equipo de sala.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTRES -->
+    <div class="carta-panel" id="tab-postres">
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/trufa cacao.jpg" alt="Petit Four de Cacao"></div>
+        <div class="carta-alt-text">
+          <span class="carta-alt-tag">Postre</span>
+          <h3>Petit Four de Cacao</h3>
+          <p>Trufa de cacao ecuatoriano sobre nibs tostados. El mejor chocolate del mundo en su expresión más pura y elegante. El final perfecto de una experiencia Chulla.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item reverse">
+        <div class="carta-alt-img"><img src="assets/tarta chocolate.jpg" alt="Tarta de Chocolate"></div>
+        <div class="carta-alt-text">
+          <h3>Tarta de Chocolate</h3>
+          <p>Fondant de cacao de Manabí, helado de canela y salsa de guanábana. Una combinación de sabores intensos con el frescor tropical del Pacífico ecuatoriano.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/postre rojo.jpg" alt="Postre de Temporada"></div>
+        <div class="carta-alt-text">
+          <h3>Postre de Temporada</h3>
+          <p>Creación del chef con fruta ecuatoriana de temporada. Elaborada cada semana según lo mejor del mercado. Consulta disponibilidad con nuestro equipo.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEBIDAS -->
+    <div class="carta-panel" id="tab-bebidas">
+      <div class="carta-alt-item">
+        <div class="carta-alt-img"><img src="assets/sala vino.jpg" alt="Canelazo Casero"></div>
+        <div class="carta-alt-text">
+          <span class="carta-alt-tag">Tradición</span>
+          <h3>Canelazo Casero</h3>
+          <p>Bebida tradicional de montaña preparada en casa como homenaje a Ecuador. Canela, naranjilla y aguardiente de caña en una copa que calienta el alma.</p>
+        </div>
+      </div>
+      <div class="carta-alt-item reverse">
+        <div class="carta-alt-img"><img src="assets/atun vinos.jpg" alt="Maridaje Selección"></div>
+        <div class="carta-alt-text">
+          <h3>Maridaje Selección</h3>
+          <p>Vinos y champanes elegidos por Mayra Gramal para acompañar cada plato del menú. Una propuesta que eleva la experiencia gastronómica a otro nivel.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="carta-note">La carta varía según temporada y disponibilidad · Consulta con nuestro equipo</p>
+  </div>
+  </div><!-- /overlay-scroll -->
+</div>
+
+<!-- ══ HERO — fondo: el mestizaje del pulpo ══ -->
+<section class="hero" id="hero">
+  <div class="hero-flag"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Guía Repsol 2026 · Recomendado
+      <span class="dot"></span>
+    </div>
+    <p class="hero-pre">Restaurante Ecuatoriano · San Blas · Madrid</p>
+    <h1 class="hero-title">
+      Chulla de
+      <em>Pablo Maldonado</em>
+    </h1>
+    <p class="hero-sub">Cocina creativa con esencia ecuatoriana</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" onclick="openPage('page-carta');return false;">Explorar la carta</a>
+      <a href="tel:911746295" class="btn-outline">📞 Reservar mesa</a>
+    </div>
+  </div>
+  <div class="hero-scroll-cue">Scroll</div>
+</section>
+
+<!-- ══ PLATOS DESTACADOS ══ -->
+<section class="carta" id="carta">
+  <div class="container">
+    <div class="carta-header reveal">
+      <p class="label">Platos destacados</p>
+      <h2 class="section-title">Sabores que <em>cuentan historias</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="carta-grid">
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/ostra.jpg" alt="Ostra con Espuma"><span class="plato-tag">Estrella</span></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Ostra con Espuma</h3><p>Ostra fresca coronada con una delicada espuma. Sabor a mar puro con el toque sutil de Chulla.</p></div>
+      </div>
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/plato verde.jpg" alt="Creación Vegetal"><span class="plato-tag">Signature</span></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Creación Vegetal</h3><p>Elaboración de autor con vegetales de temporada, texturas y emulsiones que definen la cocina creativa de Chulla.</p></div>
+      </div>
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/corviche.jpg" alt="Corviche Andino"></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Corviche Andino</h3><p>El clásico ecuatoriano reinterpretado. Masa crujiente con relleno de autor servida sobre lecho de hierbas frescas.</p></div>
+      </div>
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/trufa cacao.jpg" alt="Petit Four de Cacao"><span class="plato-tag">Postre</span></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Petit Four de Cacao</h3><p>Trufa de cacao ecuatoriano sobre nibs tostados. Cierre perfecto con el mejor chocolate del mundo.</p></div>
+      </div>
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/tartar de atun rojo.jpg" alt="Tartar de Atún Rojo"><span class="plato-tag">Instagram</span></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Tartar de Atún Rojo</h3><p>Atún rojo de primera calidad con el aliño inconfundible de Chulla. Uno de los platos más celebrados en redes.</p></div>
+      </div>
+      <div class="plato-card reveal">
+        <div class="plato-img-wrap"><img src="assets/chulla_repsol_13.jpg" alt="Ceviche Rojo con Espina"><span class="plato-tag">Repsol</span></div>
+        <div class="plato-info"><div class="plato-divider"></div><h3>Ceviche Rojo con Espina</h3><p>Ceviche de gambas en crema de ají panca coronado con una espina de pez en carbón. Técnica y tradición ecuatoriana al máximo nivel.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALERÍA ══ -->
+<section class="galeria" id="galeria">
+  <div class="container galeria-header reveal">
+    <p class="label">El restaurante</p>
+    <h2 class="section-title">En <em>imágenes</em></h2>
+    <div class="divider" style="margin:0 auto;"></div>
+  </div>
+  <div class="galeria-grid">
+    <div class="g-cell"><img src="assets/ecuador mapa.jpg" alt="Los Cuatro Mundos de Ecuador"><div class="g-cell-label">Los Cuatro Mundos de Ecuador</div></div>
+    <div class="g-cell"><img src="assets/sala vino.jpg" alt="Sala y Servicio"><div class="g-cell-label">Sala y Servicio</div></div>
+    <div class="g-cell"><img src="assets/interior.jpg" alt="Interior Chulla Madrid"><div class="g-cell-label">Interior Chulla Madrid</div></div>
+    <div class="g-cell"><img src="assets/atun vinos.jpg" alt="Atún con Champán"><div class="g-cell-label">Atún con Champán</div></div>
+    <div class="g-cell"><img src="assets/tartar de atun rojo.jpg" alt="Tartar de Atún Rojo"><div class="g-cell-label">Tartar de Atún Rojo</div></div>
+  </div>
+</section>
+
+<!-- ══ CITA FUNDADOR ══ -->
+<section class="cita-fundador">
+  <div class="container">
+    <div class="cita-inner reveal">
+      <div class="cita-marks">"</div>
+      <blockquote class="cita-text">
+        En Ecuador hay una bebida tradicional de montaña llamada <em>Canelazo</em>. En Chulla la hacemos casera, como homenaje a nuestra tierra.
+      </blockquote>
+      <p class="cita-attr">— Pablo Maldonado · Chef &amp; Fundador · @chulla.madrid</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GUÍA REPSOL ══ -->
+<section class="repsol-section" id="repsol">
+  <div class="container">
+    <div class="repsol-inner">
+      <div class="repsol-foto reveal-left">
+        <img
+          src="assets/repsol.jpg"
+          alt="Pablo Maldonado y Mayra Gramal con el Premio Guía Repsol 2026"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="repsol-placeholder">
+          <p class="ph-icon">📷</p>
+          <p>Añade <strong>assets/repsol.jpg</strong></p>
+          <p>Foto de Pablo y Mayra con el premio Repsol</p>
+        </div>
+      </div>
+      <div class="repsol-texto reveal-right">
+        <p class="label">Reconocimiento</p>
+        <h2 class="section-title">Guía Repsol <em>2026</em></h2>
+        <div class="divider"></div>
+        <p class="repsol-desc">Chulla de Pablo Maldonado ha sido reconocido por la <strong>Guía Repsol 2026</strong>, la referencia gastronómica más prestigiosa de España, por su extraordinaria propuesta culinaria basada en la cocina ecuatoriana creativa.</p>
+        <p class="repsol-desc">El chef Pablo Maldonado y la directora de sala Mayra Gramal han construido un restaurante único en Madrid donde los sabores ancestrales de Ecuador se transforman en una experiencia gastronómica de alto nivel.</p>
+        <ul class="repsol-meritos">
+          <li><span class="merit-dot"></span>Mejor Restaurante Ecuatoriano del Mundo</li>
+          <li><span class="merit-dot"></span>Cocina creativa con raíces ecuatorianas auténticas</li>
+          <li><span class="merit-dot"></span>Productos de primera calidad trabajados con técnica de vanguardia</li>
+          <li><span class="merit-dot"></span>Sala dirigida con pasión y conocimiento de la cultura andina</li>
+        </ul>
+        <div class="repsol-badge-wrap">
+          <div class="repsol-badge">
+            <div class="repsol-badge-inner">
+              <p class="repsol-badge-text">Recomendado</p>
+              <p class="repsol-badge-brand">Guía Repsol</p>
+              <p class="repsol-badge-year">2026</p>
+            </div>
+          </div>
+          <p class="repsol-badge-note">Seleccionado entre los mejores restaurantes de España por su apuesta única por la gastronomía ecuatoriana en Madrid</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HORARIO & CONTACTO ══ -->
+<section class="reservas" id="reservas">
+  <div class="container">
+    <div class="reservas-grid">
+
+      <div class="reveal-left">
+        <p class="label">Visítanos</p>
+        <h2 class="section-title">Horario & <em>Reservas</em></h2>
+        <div class="divider"></div>
+        <table class="horario-table">
+          <tr><td>Lunes</td>     <td class="cerrado">Cerrado</td></tr>
+          <tr><td>Martes</td>    <td class="cerrado">Cerrado</td></tr>
+          <tr><td>Miércoles</td> <td>13:30–16:30 · 20:30–23:00</td></tr>
+          <tr><td>Jueves</td>    <td>13:30–16:30 · 20:00–23:00</td></tr>
+          <tr><td>Viernes</td>   <td>13:30–16:30 · 20:30–23:30</td></tr>
+          <tr><td>Sábado</td>    <td>13:30–16:30 · 20:30–23:30</td></tr>
+          <tr><td>Domingo</td>   <td>13:30–16:30</td></tr>
+        </table>
+      </div>
+
+      <div class="reveal-right">
+        <div class="contact-card">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <p class="contact-label">Teléfono / Reservas</p>
+              <a href="tel:911746295" class="contact-value">911 746 295</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <p class="contact-label">Dirección</p>
+              <p class="contact-value">C. de Longares, 34<br>San Blas-Canillejas, 28022 Madrid</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="contact-label">Instagram</p>
+              <a href="https://www.instagram.com/chulla.madrid" target="_blank" class="instagram-btn">
+                @chulla.madrid
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <iframe
+          class="mapa-inline"
+          src="https://maps.google.com/maps?q=Calle+de+Longares+34+28022+Madrid&output=embed&z=16"
+          allowfullscreen="" loading="lazy"
+          title="Chulla de Pablo Maldonado — C. de Longares 34, San Blas, Madrid">
+        </iframe>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p class="footer-logo">Chulla de Pablo Maldonado</p>
+  <p class="footer-tagline">Cocina Creativa Ecuatoriana · San Blas-Canillejas · Madrid · Desde 2020</p>
+  <ul class="footer-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#carta">Carta</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#reservas">Reservas</a></li>
+    <li><a href="https://www.instagram.com/chulla.madrid" target="_blank">Instagram</a></li>
+    <li><a href="tel:911746295">911 746 295</a></li>
+  </ul>
+  <div class="footer-sep"></div>
+  <p class="footer-copy">© 2024 Chulla de Pablo Maldonado · C. de Longares, 34 · San Blas-Canillejas, 28022 Madrid · Recomendado Guía Repsol 2026</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  // ══ THREE.JS FONDO GLOBAL ══
+  (function () {
+    const canvas = document.getElementById('bgCanvas');
+    const W = () => window.innerWidth;
+    const H = () => window.innerHeight;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(W(), H());
+    renderer.setClearColor(0x060606);
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x060606, 0.028);
+
+    const camera = new THREE.PerspectiveCamera(60, W()/H(), 0.1, 120);
+    camera.position.z = 8;
+
+    // ── Túnel de partículas — largo en Z para que la cámara vuele dentro
+    const COUNT = 4500;
+    const geoP  = new THREE.BufferGeometry();
+    const posArr = new Float32Array(COUNT * 3);
+    const colArr = new Float32Array(COUNT * 3);
+
+    for (let i = 0; i < COUNT; i++) {
+      const angle  = Math.random() * Math.PI * 2;
+      const radius = 1.5 + Math.random() * 9;
+      posArr[i*3]   = Math.cos(angle) * radius;
+      posArr[i*3+1] = (Math.random() - 0.5) * 14 + Math.sin(angle) * radius * 0.25;
+      posArr[i*3+2] = (Math.random() - 0.5) * 50;
+
+      // B&N suave: mezcla de grises claros con algunos casi blancos
+      const g = (0.32 + Math.random() * 0.58); // rango 0.32–0.90
+      colArr[i*3] = g; colArr[i*3+1] = g; colArr[i*3+2] = g;
+    }
+    geoP.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+    geoP.setAttribute('color',    new THREE.BufferAttribute(colArr, 3));
+    const matP = new THREE.PointsMaterial({
+      size: 0.07, vertexColors: true, transparent: true, opacity: 0.72,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    });
+    const points = new THREE.Points(geoP, matP);
+    scene.add(points);
+
+    // ── Formas wireframe distribuidas a lo largo del túnel
+    const shapes = [];
+    const mkMat  = (op) => new THREE.MeshBasicMaterial({
+      color: 0x888888, wireframe: true, transparent: true, opacity: op * 0.55,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    const geoPool = [
+      () => new THREE.IcosahedronGeometry(0.4 + Math.random()*0.5, 0),
+      () => new THREE.OctahedronGeometry(0.5  + Math.random()*0.5, 0),
+      () => new THREE.TetrahedronGeometry(0.4 + Math.random()*0.5, 0),
+      () => new THREE.TorusGeometry(0.35 + Math.random()*0.3, 0.07, 8, 24),
+    ];
+    for (let i = 0; i < 22; i++) {
+      const angle  = Math.random() * Math.PI * 2;
+      const radius = 2 + Math.random() * 6;
+      const mesh   = new THREE.Mesh(geoPool[i%4](), mkMat(0.08 + Math.random()*0.18));
+      mesh.position.set(
+        Math.cos(angle) * radius,
+        (Math.random() - 0.5) * 10,
+        (Math.random() - 0.5) * 48
+      );
+      mesh.userData = {
+        rx: (Math.random()-0.5)*0.01,  ry: (Math.random()-0.5)*0.014,
+        rz: (Math.random()-0.5)*0.008, fy: mesh.position.y,
+        ft: Math.random()*Math.PI*2,   fs: 0.002+Math.random()*0.004,
+        fa: 0.2+Math.random()*0.5
+      };
+      scene.add(mesh); shapes.push(mesh);
+    }
+
+    // ── Mouse parallax
+    let txM=0, tyM=0, cxM=0, cyM=0;
+    window.addEventListener('mousemove', e => {
+      txM = (e.clientX/W() - 0.5) * 1.6;
+      tyM = (e.clientY/H() - 0.5) * -1.0;
+    });
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(W(), H());
+      camera.aspect = W()/H();
+      camera.updateProjectionMatrix();
+    });
+
+    let t = 0;
+    (function tick() {
+      requestAnimationFrame(tick);
+      t += 0.005;
+
+      // Scroll → la cámara vuela hacia adelante por el túnel
+      const scrollH = Math.max(1, document.body.scrollHeight - window.innerHeight);
+      const sp      = window.scrollY / scrollH; // 0 a 1
+      const targetZ = 8 - sp * 26;              // de z=8 a z=-18
+      camera.position.z += (targetZ - camera.position.z) * 0.06;
+
+      // Niebla se mantiene neutra oscura
+      scene.fog.color.setRGB(0.032, 0.032, 0.032);
+
+      // Rotación lenta del campo de partículas
+      points.rotation.z += 0.0002;
+
+      // Formas flotan y rotan
+      shapes.forEach(s => {
+        s.rotation.x += s.userData.rx;
+        s.rotation.y += s.userData.ry;
+        s.rotation.z += s.userData.rz;
+        s.userData.ft += s.userData.fs;
+        s.position.y   = s.userData.fy + Math.sin(s.userData.ft) * s.userData.fa;
+      });
+
+      // Parallax ratón suave
+      cxM += (txM - cxM) * 0.04;
+      cyM += (tyM - cyM) * 0.04;
+      camera.position.x += (cxM - camera.position.x) * 0.05;
+      camera.position.y += (cyM + sp*1.5 - camera.position.y) * 0.05;
+      camera.lookAt(camera.position.x*0.15, camera.position.y*0.15, camera.position.z - 5);
+
+      renderer.render(scene, camera);
+    })();
+  })();
+
+  // ══ NAV ══
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ══ HAMBURGUESA ══
+  const menuBtn     = document.getElementById('menuBtn');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  // ══ LOCK / UNLOCK SCROLL (sin overflow:hidden que rompe la rueda en Chrome) ══
+  let _scrollY = 0;
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top      = `-${_scrollY}px`;
+    document.body.style.width    = '100%';
+  }
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    window.scrollTo(0, _scrollY);
+  }
+
+  function openMenu()  { menuBtn.classList.add('open');    menuOverlay.classList.add('open');    lockScroll(); }
+  function closeMenu() { menuBtn.classList.remove('open'); menuOverlay.classList.remove('open'); unlockScroll(); }
+  menuBtn.addEventListener('click', () => menuOverlay.classList.contains('open') ? closeMenu() : openMenu());
+
+  // ══ PAGE OVERLAYS ══
+  function openPage(id) {
+    closeMenu();
+    document.querySelectorAll('.page-overlay').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById(id);
+    if (page) { page.classList.add('active'); page.scrollTop = 0; lockScroll(); }
+  }
+  function closePage() {
+    document.querySelectorAll('.page-overlay').forEach(p => p.classList.remove('active'));
+    unlockScroll();
+  }
+  function cartaTab(btn, tabId) {
+    document.querySelectorAll('.carta-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.carta-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    document.getElementById('page-carta').querySelector('.overlay-scroll').scrollTop = 0;
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePage(); closeMenu(); } });
+
+  // Contacto: cierra el menú y hace scroll
+  document.querySelector('.menu-nav a[href="#reservas"]').addEventListener('click', () => {
+    closeMenu();
+    setTimeout(() => document.getElementById('reservas').scrollIntoView({ behavior: 'smooth' }), 400);
+  });
+
+
+  // ══ SCROLL REVEAL ══
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+  // ══ 3D TILT EN CARDS ══
+  document.querySelectorAll('.plato-card, .g-cell').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(700px) rotateY(${x*16}deg) rotateX(${-y*16}deg) scale(1.04)`;
+      card.style.transition = 'transform 0.05s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.45s ease';
+    });
+  });
+
+</script>
+
+</body>
+</html>
