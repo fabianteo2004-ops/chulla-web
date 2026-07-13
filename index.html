@@ -1522,7 +1522,12 @@
   <p class="footer-copy">© 2024 Chulla de Pablo Maldonado · C. de Longares, 34 · Las Rosas, 28022 Madrid · Recomendado Guía Repsol 2026</p>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script>
+if (typeof THREE === 'undefined') {
+  document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+}
+</script>
 <script>
   // ══ THREE.JS FONDO GLOBAL ══
   try { (function () {
