@@ -40,11 +40,13 @@
       padding: clamp(0.5rem, 0.9vh, 0.85rem) clamp(1rem, 2.5vw, 3rem);
     }
     .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(0.75rem, 1.1vw, 1.55rem); font-weight: 700;
-      letter-spacing: clamp(0.12em, 0.28em, 0.38em); text-transform: uppercase;
-      color: var(--oro); text-decoration: none; flex-shrink: 0;
+      display: flex; align-items: center; text-decoration: none; flex-shrink: 0;
     }
+    .nav-logo img {
+      height: 48px; width: auto; object-fit: contain;
+      filter: brightness(1.05); transition: opacity 0.3s;
+    }
+    .nav-logo:hover img { opacity: 0.8; }
     .nav-links {
       display: flex; list-style: none; gap: 0; align-items: center;
       flex: 1; justify-content: center;
@@ -941,6 +943,9 @@
 
 <!-- ══ NAV ══ -->
 <nav id="nav">
+  <a href="#" class="nav-logo" onclick="closePage(); window.scrollTo(0,0); return false;">
+    <img src="assets/IMG_4907.JPG" alt="Chulla de Pablo Maldonado">
+  </a>
   <ul class="nav-links">
     <li><a href="#" onclick="closePage(); window.scrollTo(0,0); return false;">Home</a></li>
     <li><a href="#" onclick="openPage('page-historia');return false;">Chulla</a></li>
