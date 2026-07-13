@@ -701,7 +701,7 @@
 
     /* ══ TESTIMONIOS ══ */
     .testimonios { background: transparent; padding: 5rem 2rem 4rem; }
-    .testimonios-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+    .testimonios-wrap { max-width: 900px; margin: 0 auto; position: relative; display: flex; align-items: center; gap: 1.5rem; }
     .testimonio-slide { display: none; animation: tFadeIn 0.5s ease; }
     .testimonio-slide.active { display: block; }
     @keyframes tFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -714,9 +714,10 @@
       font-size: clamp(1rem, 2vw, 1.35rem); color: rgba(253,246,238,0.82);
       line-height: 1.75; border-left: 2px solid var(--oro); padding-left: 1.8rem;
     }
+    .testimonio-content { flex: 1; min-width: 0; }
     .testimonio-nav {
       display: flex; justify-content: center; align-items: center; gap: 0.7rem;
-      margin-top: 2.2rem;
+      margin-top: 2rem;
     }
     .testimonio-dot {
       width: 7px; height: 7px; border-radius: 50%;
@@ -725,9 +726,9 @@
     }
     .testimonio-dot.active { background: var(--oro); transform: scale(1.3); }
     .testimonio-btn {
-      background: none; border: none; cursor: pointer; padding: 0 0.3rem;
-      color: rgba(201,151,58,0.45); font-size: 1.1rem; line-height: 1;
-      transition: color 0.3s;
+      background: none; border: none; cursor: pointer; padding: 0.5rem;
+      color: rgba(201,151,58,0.4); font-size: 2.2rem; line-height: 1; flex-shrink: 0;
+      transition: color 0.3s; font-family: serif;
     }
     .testimonio-btn:hover { color: var(--oro); }
 
@@ -1440,25 +1441,27 @@
 <!-- ══ TESTIMONIOS ══ -->
 <section class="testimonios">
   <div class="testimonios-wrap reveal">
-    <div class="testimonio-slide active" id="t-0">
-      <div class="testimonio-comillas">"</div>
-      <p class="testimonio-texto">¡¡¡Reservamos el Menú degustación y que gran acierto!!! Pablo y Mayra, grandes profesionales con un local muy acogedor y elegante. Representan una cocina ecuatoriana impecable con influencia mediterránea y el maridaje un gran descubrimiento. Mención especial: El ceviche con camarón ecuatoriano y el postre a base de chocolate ecuatoriano. Una joya escondida en las Rosas · Madrid · Distrito San Blas.</p>
+    <button class="testimonio-btn" onclick="tMove(-1)" aria-label="Anterior">&#8249;</button>
+    <div class="testimonio-content">
+      <div class="testimonio-slide active" id="t-0">
+        <div class="testimonio-comillas">"</div>
+        <p class="testimonio-texto">¡¡¡Reservamos el Menú degustación y que gran acierto!!! Pablo y Mayra, grandes profesionales con un local muy acogedor y elegante. Representan una cocina ecuatoriana impecable con influencia mediterránea y el maridaje un gran descubrimiento. Mención especial: El ceviche con camarón ecuatoriano y el postre a base de chocolate ecuatoriano. Una joya escondida en las Rosas · Madrid · Distrito San Blas.</p>
+      </div>
+      <div class="testimonio-slide" id="t-1">
+        <div class="testimonio-comillas">"</div>
+        <p class="testimonio-texto">Cocina ECUATORIANA, los platos son una explosión de sabores exquisitos, la atención en sala exquisita marca los detalles y el chef aparece al final de la experiencia gastronómica. Innovan el menú degustación con frecuencia así que las razones para volver están garantizadas.</p>
+      </div>
+      <div class="testimonio-slide" id="t-2">
+        <div class="testimonio-comillas">"</div>
+        <p class="testimonio-texto">Un chef ecuatoriano que brinda unos platos creativos que son de lo más exquisitos, se siente la esencia ecuatoriana y la técnica impecable. Me ha encantado la sensación de cercanía que desprenden al interactuar contigo.</p>
+      </div>
+      <div class="testimonio-nav">
+        <span class="testimonio-dot active" onclick="tGo(0)"></span>
+        <span class="testimonio-dot" onclick="tGo(1)"></span>
+        <span class="testimonio-dot" onclick="tGo(2)"></span>
+      </div>
     </div>
-    <div class="testimonio-slide" id="t-1">
-      <div class="testimonio-comillas">"</div>
-      <p class="testimonio-texto">Cocina ECUATORIANA, los platos son una explosión de sabores exquisitos, la atención en sala exquisita marca los detalles y el chef aparece al final de la experiencia gastronómica. Innovan el menú degustación con frecuencia así que las razones para volver están garantizadas.</p>
-    </div>
-    <div class="testimonio-slide" id="t-2">
-      <div class="testimonio-comillas">"</div>
-      <p class="testimonio-texto">Un chef ecuatoriano que brinda unos platos creativos que son de lo más exquisitos, se siente la esencia ecuatoriana y la técnica impecable. Me ha encantado la sensación de cercanía que desprenden al interactuar contigo.</p>
-    </div>
-    <div class="testimonio-nav">
-      <button class="testimonio-btn" onclick="tMove(-1)" aria-label="Anterior">&#8249;</button>
-      <span class="testimonio-dot active" onclick="tGo(0)"></span>
-      <span class="testimonio-dot" onclick="tGo(1)"></span>
-      <span class="testimonio-dot" onclick="tGo(2)"></span>
-      <button class="testimonio-btn" onclick="tMove(1)" aria-label="Siguiente">&#8250;</button>
-    </div>
+    <button class="testimonio-btn" onclick="tMove(1)" aria-label="Siguiente">&#8250;</button>
   </div>
 </section>
 
