@@ -28,8 +28,8 @@
     /* ══ NAV ══ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: clamp(0.7rem, 1.3vh, 1.4rem) clamp(1rem, 2.5vw, 3rem);
+      display: flex; align-items: stretch; justify-content: space-between;
+      padding: 0 clamp(1rem, 2.5vw, 3rem);
       background: rgba(8,8,8,0.97);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -37,13 +37,15 @@
       transition: padding 0.5s;
     }
     nav.scrolled {
-      padding: clamp(0.5rem, 0.9vh, 0.85rem) clamp(1rem, 2.5vw, 3rem);
+      padding: 0 clamp(1rem, 2.5vw, 3rem);
     }
+    .nav-links, .nav-reservar { align-self: center; }
     .nav-logo {
       display: flex; align-items: center; text-decoration: none; flex-shrink: 0;
+      padding: 0.4rem 0;
     }
     .nav-logo img {
-      height: 48px; width: auto; object-fit: contain;
+      height: clamp(52px, 6vh, 72px); width: auto; object-fit: contain;
       filter: brightness(1.05); transition: opacity 0.3s;
     }
     .nav-logo:hover img { opacity: 0.8; }
