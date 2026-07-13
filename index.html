@@ -23,7 +23,7 @@
     }
 
     html { scroll-behavior: smooth; overflow-x: hidden; background: var(--dark); }
-    body { font-family: 'Playfair Display', serif; background: #060606; color: var(--warm-white); line-height: 1.6; overflow-x: hidden; max-width: 100%; }
+    body { font-family: 'Playfair Display', serif; background: transparent; color: var(--warm-white); line-height: 1.6; overflow-x: hidden; max-width: 100%; }
 
     /* ══ NAV ══ */
     nav {
@@ -1745,7 +1745,8 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePage(); closeMenu(); } });
 
   // Contacto: cierra el menú y hace scroll
-  document.querySelector('.menu-nav a[href="#reservas"]').addEventListener('click', () => {
+  var _reservasLink = document.querySelector('.menu-nav a[href="#reservas"]');
+  if (_reservasLink) _reservasLink.addEventListener('click', () => {
     closeMenu();
     setTimeout(() => document.getElementById('reservas').scrollIntoView({ behavior: 'smooth' }), 400);
   });
