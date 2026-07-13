@@ -717,6 +717,45 @@
     .cita-text em { color: var(--oro); }
     .cita-attr { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
 
+    /* ══ REGALA ══ */
+    .regala-inner { max-width: 720px; margin: 0 auto; padding: 1.5rem 2rem 5rem; }
+    .regala-header { text-align: center; margin-bottom: 3rem; }
+    .regala-intro { font-size: 0.95rem; color: rgba(253,246,238,0.55); line-height: 1.8; margin-bottom: 3rem; text-align: center; }
+    .regala-cards { display: flex; flex-direction: column; gap: 2.5rem; }
+    .regala-card {
+      border: 1px solid rgba(201,151,58,0.3); padding: 2.5rem 2.8rem;
+      position: relative; background: rgba(201,151,58,0.03);
+    }
+    .regala-card::before {
+      content: ''; position: absolute; top: 0; left: 2.8rem; right: 2.8rem; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--oro), transparent);
+    }
+    .regala-nombre {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      color: var(--oro); font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.04em;
+    }
+    .regala-subtitulo {
+      font-size: 0.65rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(201,151,58,0.6); margin-bottom: 1.8rem;
+    }
+    .regala-pasos { list-style: none; margin-bottom: 1.8rem; }
+    .regala-pasos li {
+      font-size: 0.9rem; color: rgba(253,246,238,0.75); padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(201,151,58,0.1); display: flex; align-items: center; gap: 0.8rem;
+    }
+    .regala-pasos li::before { content: '—'; color: var(--oro); flex-shrink: 0; }
+    .regala-precio {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--warm-white);
+      font-weight: 700; margin-top: 1.5rem;
+    }
+    .regala-precio span { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); display: block; margin-top: 0.2rem; }
+    .regala-reservar {
+      display: inline-block; margin-top: 1.8rem; background: var(--oro); color: var(--dark);
+      text-decoration: none; padding: 0.85rem 2.5rem; font-size: 0.72rem;
+      letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; border-radius: 2px;
+    }
+    @media (max-width: 600px) { .regala-card { padding: 2rem 1.4rem; } }
+
     /* ══ TESTIMONIOS ══ */
     .testimonios { background: transparent; padding: 5rem 2rem 4rem; }
     .testimonios-wrap { max-width: 900px; margin: 0 auto; position: relative; display: flex; align-items: center; gap: 1.5rem; }
@@ -905,7 +944,7 @@
   <ul class="nav-links">
     <li><a href="#" onclick="closePage(); window.scrollTo(0,0); return false;">Home</a></li>
     <li><a href="#" onclick="openPage('page-historia');return false;">Chulla</a></li>
-    <li><a href="#">Regala</a></li>
+    <li><a href="#" onclick="openPage('page-regala');return false;">Regala</a></li>
     <li><a href="#" onclick="openPage('page-carta');return false;">Carta</a></li>
     <li><a href="#" onclick="openPage('page-prensa');return false;">Prensa</a></li>
     <li><a href="#" onclick="goToSection('reservas'); return false;">Contacto</a></li>
@@ -924,12 +963,61 @@
     <ul class="menu-nav">
       <li><a href="#" onclick="closePage(); closeMenu(); window.scrollTo(0,0); return false;">Home</a></li>
       <li><a href="#" onclick="openPage('page-historia');return false;">Chulla</a></li>
-      <li><a href="#">Regala</a></li>
+      <li><a href="#" onclick="openPage('page-regala');return false;">Regala</a></li>
       <li><a href="#" onclick="openPage('page-carta');return false;">Carta</a></li>
       <li><a href="#" onclick="openPage('page-prensa');return false;">Prensa</a></li>
       <li><a href="#" onclick="closeMenu(); goToSection('reservas'); return false;">Contacto</a></li>
     </ul>
   </div>
+</div>
+
+<!-- ══ PAGE OVERLAY: REGALA ══ -->
+<div class="page-overlay" id="page-regala">
+  <div class="page-topline"></div>
+  <button class="page-back" onclick="closePage()">✕</button>
+  <div class="overlay-scroll">
+  <div class="regala-inner">
+    <div class="regala-header">
+      <p class="label">Una experiencia única</p>
+      <h2 class="section-title">Regala <em>Chulla</em></h2>
+      <div class="divider" style="margin:0 auto 2rem;"></div>
+      <p class="regala-intro">Nuestros menús degustación son una invitación a viajar entre Ecuador y el Mediterráneo. Bajo reserva previa, disponibles para toda la mesa.</p>
+    </div>
+    <div class="regala-cards">
+
+      <!-- MENÚ 1 -->
+      <div class="regala-card">
+        <p class="regala-nombre">Menú Chulla Esencia Ecuatoriana</p>
+        <p class="regala-subtitulo">M E N Ú &nbsp; D E G U S T A C I Ó N &nbsp; · &nbsp; S I E T E &nbsp; P A S E S</p>
+        <ul class="regala-pasos">
+          <li>Dos snacks</li>
+          <li>Dos entrantes</li>
+          <li>1 Principal de la Mar</li>
+          <li>1 Segundo de la Tierra</li>
+          <li>Postre</li>
+        </ul>
+        <div class="regala-precio">70 €<span>por persona · Bajo reserva</span></div>
+        <a href="#" onclick="closePage(); setTimeout(()=>openPage('page-reserva'),200); return false;" class="regala-reservar">Reservar este menú</a>
+      </div>
+
+      <!-- MENÚ 2 -->
+      <div class="regala-card">
+        <p class="regala-nombre">Menú Raíces Andinas</p>
+        <p class="regala-subtitulo">M E N Ú &nbsp; D E G U S T A C I Ó N &nbsp; · &nbsp; O C H O &nbsp; P A S E S</p>
+        <ul class="regala-pasos">
+          <li>Un snack</li>
+          <li>Dos entrantes</li>
+          <li>2 Principales de la Mar</li>
+          <li>2 Segundos de la Tierra</li>
+          <li>Postre</li>
+        </ul>
+        <div class="regala-precio">80 €<span>por persona · Bajo reserva</span></div>
+        <a href="#" onclick="closePage(); setTimeout(()=>openPage('page-reserva'),200); return false;" class="regala-reservar">Reservar este menú</a>
+      </div>
+
+    </div>
+  </div>
+  </div><!-- /overlay-scroll -->
 </div>
 
 <!-- ══ PAGE OVERLAY: RESERVA ══ -->
@@ -1782,8 +1870,8 @@
 
   // ══ PAGE OVERLAYS + URL ROUTING ══
   var BASE = '';
-  var PAGE_SLUG = { 'page-carta':'carta','page-historia':'chulla','page-galeria':'galeria','page-reserva':'reserva','page-prensa':'prensa' };
-  var SLUG_PAGE = { 'carta':'page-carta','chulla':'page-historia','galeria':'page-galeria','reserva':'page-reserva','prensa':'page-prensa' };
+  var PAGE_SLUG = { 'page-carta':'carta','page-historia':'chulla','page-galeria':'galeria','page-reserva':'reserva','page-prensa':'prensa','page-regala':'regala' };
+  var SLUG_PAGE = { 'carta':'page-carta','chulla':'page-historia','galeria':'page-galeria','reserva':'page-reserva','prensa':'page-prensa','regala':'page-regala' };
 
   function openPage(id) {
     closeMenu();
