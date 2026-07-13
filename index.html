@@ -699,6 +699,38 @@
     .cita-text em { color: var(--oro); }
     .cita-attr { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
 
+    /* ══ TESTIMONIOS ══ */
+    .testimonios { background: transparent; padding: 5rem 2rem 4rem; }
+    .testimonios-wrap { max-width: 800px; margin: 0 auto; position: relative; }
+    .testimonio-slide { display: none; animation: tFadeIn 0.5s ease; }
+    .testimonio-slide.active { display: block; }
+    @keyframes tFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .testimonio-comillas {
+      font-family: 'Playfair Display', serif; font-size: 5rem; line-height: 0.5;
+      color: rgba(201,151,58,0.18); user-select: none; margin-bottom: 0.8rem;
+    }
+    .testimonio-texto {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.35rem); color: rgba(253,246,238,0.82);
+      line-height: 1.75; border-left: 2px solid var(--oro); padding-left: 1.8rem;
+    }
+    .testimonio-nav {
+      display: flex; justify-content: center; align-items: center; gap: 0.7rem;
+      margin-top: 2.2rem;
+    }
+    .testimonio-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(201,151,58,0.28); border: 1px solid rgba(201,151,58,0.5);
+      cursor: pointer; transition: background 0.3s, transform 0.3s;
+    }
+    .testimonio-dot.active { background: var(--oro); transform: scale(1.3); }
+    .testimonio-btn {
+      background: none; border: none; cursor: pointer; padding: 0 0.3rem;
+      color: rgba(201,151,58,0.45); font-size: 1.1rem; line-height: 1;
+      transition: color 0.3s;
+    }
+    .testimonio-btn:hover { color: var(--oro); }
+
     /* ══ REPSOL ══ */
     .repsol-section { background: transparent; padding: 3rem 2rem 7rem; }
     .repsol-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
@@ -1405,6 +1437,31 @@
   </div>
 </section>
 
+<!-- ══ TESTIMONIOS ══ -->
+<section class="testimonios">
+  <div class="testimonios-wrap reveal">
+    <div class="testimonio-slide active" id="t-0">
+      <div class="testimonio-comillas">"</div>
+      <p class="testimonio-texto">¡¡¡Reservamos el Menú degustación y que gran acierto!!! Pablo y Mayra, grandes profesionales con un local muy acogedor y elegante. Representan una cocina ecuatoriana impecable con influencia mediterránea y el maridaje un gran descubrimiento. Mención especial: El ceviche con camarón ecuatoriano y el postre a base de chocolate ecuatoriano. Una joya escondida en las Rosas · Madrid · Distrito San Blas.</p>
+    </div>
+    <div class="testimonio-slide" id="t-1">
+      <div class="testimonio-comillas">"</div>
+      <p class="testimonio-texto">Cocina ECUATORIANA, los platos son una explosión de sabores exquisitos, la atención en sala exquisita marca los detalles y el chef aparece al final de la experiencia gastronómica. Innovan el menú degustación con frecuencia así que las razones para volver están garantizadas.</p>
+    </div>
+    <div class="testimonio-slide" id="t-2">
+      <div class="testimonio-comillas">"</div>
+      <p class="testimonio-texto">Un chef ecuatoriano que brinda unos platos creativos que son de lo más exquisitos, se siente la esencia ecuatoriana y la técnica impecable. Me ha encantado la sensación de cercanía que desprenden al interactuar contigo.</p>
+    </div>
+    <div class="testimonio-nav">
+      <button class="testimonio-btn" onclick="tMove(-1)" aria-label="Anterior">&#8249;</button>
+      <span class="testimonio-dot active" onclick="tGo(0)"></span>
+      <span class="testimonio-dot" onclick="tGo(1)"></span>
+      <span class="testimonio-dot" onclick="tGo(2)"></span>
+      <button class="testimonio-btn" onclick="tMove(1)" aria-label="Siguiente">&#8250;</button>
+    </div>
+  </div>
+</section>
+
 <!-- ══ HORARIO & CONTACTO ══ -->
 <section class="reservas" id="reservas">
   <div class="container">
@@ -1798,6 +1855,18 @@
       card.style.transition = 'transform 0.45s ease';
     });
   });
+
+  // ── TESTIMONIOS ──
+  var tCurrent = 0;
+  var tTotal = 3;
+  function tGo(n) {
+    document.getElementById('t-' + tCurrent).classList.remove('active');
+    document.querySelectorAll('.testimonio-dot')[tCurrent].classList.remove('active');
+    tCurrent = (n + tTotal) % tTotal;
+    document.getElementById('t-' + tCurrent).classList.add('active');
+    document.querySelectorAll('.testimonio-dot')[tCurrent].classList.add('active');
+  }
+  function tMove(dir) { tGo(tCurrent + dir); }
 
 </script>
 
