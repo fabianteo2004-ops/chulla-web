@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/jpeg" href="assets/IMG_4907.JPG">
   <title>Chulla de Pablo Maldonado | Cocina Ecuatoriana Creativa | Madrid</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600;700&family=Montserrat:wght@900&family=Poppins:wght@900&family=Nunito:wght@900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -73,16 +73,17 @@
     .nav-reservar:hover { opacity: 0.82; }
     /* ══ HERO ORIGEN ══ */
     .hero-origen {
-      position: absolute; top: 53%; left: 0; right: 0; z-index: 2;
+      position: absolute; top: 50%; left: 0; right: 0; z-index: 2;
       display: flex; justify-content: space-between; align-items: center;
       padding: 0 13%; pointer-events: none;
       transform: translateY(-50%);
     }
     .hero-origen span {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.1rem; font-weight: 400;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      color: rgba(255,255,255,0.88);
+      font-family: 'Nunito', sans-serif;
+      font-size: 2.2rem; font-weight: 900;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.45);
       opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
     }
 
@@ -116,7 +117,7 @@
       .hero-flag { display: none !important; }
       .hero-badge { top: 6.5rem !important; }
       .hero-photo { padding: 5rem 6% 0 !important; }
-      .hero-origen { top: 35% !important; }
+      .hero-origen { top: 58% !important; }
       .hero-origen span { font-size: 0.72rem !important; letter-spacing: 0.22em !important; }
 
       .hero { padding-bottom: 22vh !important; box-sizing: border-box !important; }
@@ -914,6 +915,20 @@
       width: fit-content; transition: background 0.25s, color 0.25s;
     }
     .prensa-leer:hover { background: var(--oro); color: var(--dark); }
+    .prensa-imgs {
+      display: flex; gap: 0;
+      width: calc(100% + 5rem); margin: -2.8rem -2.5rem 1.8rem;
+    }
+    .prensa-card-img {
+      display: block; height: auto; max-height: 420px; object-fit: contain;
+      flex: 1; width: 50%;
+    }
+    .prensa-card-img--2 { display: block; }
+    @media (max-width: 960px) {
+      .prensa-imgs { display: block; width: 100%; margin: 0 0 1.4rem 0; }
+      .prensa-card-img { width: 100%; max-height: none; }
+      .prensa-card-img--2 { display: none; }
+    }
     @media (max-width: 900px) {
       .prensa-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -1532,6 +1547,16 @@
   <div class="prensa-inner">
     <div class="prensa-grid">
 
+      <div class="prensa-card" style="grid-column: 1 / -1;">
+        <div class="prensa-imgs">
+          <img class="prensa-card-img" src="assets/repsol-post.png" alt="Chulla Repsol">
+          <img class="prensa-card-img prensa-card-img--2" src="assets/repsol-post-2.png" alt="Chulla Repsol 2">
+        </div>
+        <span class="prensa-source">Repsol</span>
+        <p class="prensa-titulo">Chulla en la Guía Repsol 2026 — Recomendado</p>
+        <a class="prensa-leer" href="https://share.google/wo0VKKNARHEhw0PoF" target="_blank" rel="noopener">Ver</a>
+      </div>
+
       <div class="prensa-card">
         <span class="prensa-source">Guía Repsol</span>
         <p class="prensa-titulo">Restaurante Chulla, Guía Repsol 2025</p>
@@ -1567,6 +1592,7 @@
         <p class="prensa-titulo">Pablo Maldonado, el chef ecuatoriano que conquista Madrid con el restaurante Chulla</p>
         <a class="prensa-leer" href="https://www.primicias.ec/entretenimiento/gastronomia/pablo-maldonado-chef-ecuatoriano-madrid-restaurante-chulla-114549/" target="_blank" rel="noopener">Leer</a>
       </div>
+
 
     </div>
   </div>
