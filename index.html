@@ -73,18 +73,21 @@
     .nav-reservar:hover { opacity: 0.82; }
     /* ══ HERO ORIGEN ══ */
     .hero-origen {
-      position: absolute; top: 58%; left: 0; right: 0; z-index: 2;
-      display: flex; justify-content: center; align-items: center; gap: 3rem;
-      padding: 0 2rem; pointer-events: none;
+      position: absolute; top: 50%; left: 0; right: 0; z-index: 2;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 3%; pointer-events: none;
       transform: translateY(-50%);
     }
     .hero-origen span {
       font-family: 'Playfair Display', serif;
-      font-size: 1.9rem; font-weight: 400;
-      letter-spacing: 0.22em; text-transform: uppercase;
+      font-size: 1.1rem; font-weight: 400;
+      letter-spacing: 0.3em; text-transform: uppercase;
       color: rgba(255,255,255,0.88);
+      writing-mode: vertical-rl;
       opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
     }
+    .hero-origen span:first-child { transform: rotate(180deg); }
+    .hero-origen span:last-child { transform: rotate(0deg); }
 
     /* ══ HAMBURGUESA ══ */
     .menu-btn {
@@ -116,8 +119,8 @@
       .hero-flag { display: none !important; }
       .hero-badge { top: 6.5rem !important; }
       .hero-photo { padding: 5rem 6% 0 !important; }
-      .hero-origen { top: 35% !important; }
-      .hero-origen span { font-size: 0.78rem !important; letter-spacing: 0.28em !important; }
+      .hero-origen { top: 38% !important; }
+      .hero-origen span { font-size: 0.72rem !important; letter-spacing: 0.22em !important; }
 
       .hero { padding-bottom: 22vh !important; box-sizing: border-box !important; }
       .hero-title, .hero-sub { font-size: 1.15rem !important; letter-spacing: 0.04em !important; }
