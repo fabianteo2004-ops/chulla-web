@@ -73,15 +73,15 @@
     .nav-reservar:hover { opacity: 0.82; }
     /* ══ HERO ORIGEN ══ */
     .hero-origen {
-      position: absolute; top: 52%; left: 0; right: 0; z-index: 2;
+      position: absolute; top: 58%; left: 0; right: 0; z-index: 2;
       display: flex; justify-content: space-between; align-items: center;
       padding: 0 clamp(1.5rem, 6vw, 7rem); pointer-events: none;
       transform: translateY(-50%);
     }
     .hero-origen span {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(0.85rem, 1.8vw, 2rem); font-weight: 400;
-      letter-spacing: clamp(0.18em, 0.38em, 0.44em); text-transform: uppercase;
+      font-size: 1rem; font-weight: 400;
+      letter-spacing: 0.32em; text-transform: uppercase;
       color: rgba(255,255,255,0.88);
       opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
     }
@@ -116,6 +116,8 @@
       .hero-flag { display: none !important; }
       .hero-badge { top: 6.5rem !important; }
       .hero-photo { padding: 5rem 6% 0 !important; }
+      .hero-origen { top: 36% !important; }
+      .hero-origen span { font-size: 0.78rem !important; letter-spacing: 0.28em !important; }
 
       .hero { padding-bottom: 22vh !important; box-sizing: border-box !important; }
       .hero-title, .hero-sub { font-size: 1.15rem !important; letter-spacing: 0.04em !important; }
@@ -951,14 +953,10 @@
 
     /* ══ HERO ORIGEN + CONTENT: ajuste por altura de pantalla ══ */
     @media (max-height: 860px) and (min-width: 961px) {
-      .hero-origen span { font-size: clamp(0.55rem, 1.1vw, 1.3rem); }
-      .hero-origen span:nth-child(2) { font-size: clamp(0.85rem, 2.4vw, 2.2rem); }
       .hero-title, .hero-sub { font-size: clamp(1.2rem, 4vw, 5rem); }
       .hero-sub { margin-bottom: 1.2rem; }
     }
     @media (max-height: 750px) and (min-width: 961px) {
-      .hero-origen span { font-size: clamp(0.52rem, 1vw, 1.1rem); }
-      .hero-origen span:nth-child(2) { font-size: clamp(0.8rem, 2vw, 1.8rem); }
       .hero-title, .hero-sub { font-size: clamp(1.1rem, 3.5vw, 4rem); }
       .hero-sub { margin-bottom: 0.8rem; }
     }
